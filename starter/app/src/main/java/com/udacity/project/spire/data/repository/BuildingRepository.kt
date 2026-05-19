@@ -1,21 +1,11 @@
 package com.udacity.project.spire.data.repository
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.map
-import com.udacity.project.spire.data.local.dao.BuildingDao
-import com.udacity.project.spire.data.local.dao.CityDao
-import com.udacity.project.spire.data.local.dao.CountryDao
 import com.udacity.project.spire.data.local.database.SpireDatabase
 import com.udacity.project.spire.data.local.entity.BuildingEntity
 import com.udacity.project.spire.data.local.entity.CityEntity
 import com.udacity.project.spire.data.local.entity.CountryEntity
-import com.udacity.project.spire.data.local.entity.toDomainModel
-import com.udacity.project.spire.data.local.entity.toEntity
-import com.udacity.project.spire.data.paging.BuildingRemoteMediator
 import com.udacity.project.spire.data.remote.api.BuildingApiService
 import com.udacity.project.spire.data.remote.dto.BuildingDto
 import com.udacity.project.spire.data.remote.dto.PaginationMetadata
@@ -25,9 +15,6 @@ import com.udacity.project.spire.domain.model.VisitStatus
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.withContext
 
 /**
  * Repository interface for building data operations.
@@ -201,11 +188,12 @@ class DefaultBuildingRepository(
         //val cityId = getOrCreateCity(dto.city.name, countryId)
 
         return BuildingEntity(
-            id = dto.id,
+            id = dto.id,,
             // TODO (Part of #31-32): Add remaining properties
             // Map all properties from BuildingDto to BuildingEntity
             // Use getOrCreateCountry() and getOrCreateCity() to get foreign key IDs
             // Convert VisitStatus to VisitStatusEntity using .toEntity()
+            ,
         )
     }
 

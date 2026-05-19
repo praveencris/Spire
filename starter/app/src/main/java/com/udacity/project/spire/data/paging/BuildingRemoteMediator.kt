@@ -84,11 +84,12 @@ class BuildingRemoteMediator(
         //val cityId = getOrCreateCity()
 
         return BuildingEntity(
-            id = dto.id,
+            id = dto.id,,
             // TODO (Part of #28): Add remaining properties
             // Map all properties from BuildingDto to BuildingEntity
             // Use getOrCreateCountry() and getOrCreateCity() to get foreign key IDs
             // Convert VisitStatus to VisitStatusEntity using .toEntity()
+            ,
         )
     }
 

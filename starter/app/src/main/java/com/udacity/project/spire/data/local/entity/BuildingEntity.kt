@@ -1,5 +1,11 @@
 package com.udacity.project.spire.data.local.entity
 
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
+import androidx.room.PrimaryKey
+import androidx.room.Relation
 import com.udacity.project.spire.domain.model.Building
 import com.udacity.project.spire.domain.model.VisitStatus
 
@@ -35,9 +41,27 @@ import com.udacity.project.spire.domain.model.VisitStatus
  *  - androidx.room.ForeignKey
  *  - androidx.room.Index
  */
+@Entity(
+    tableName = "buildings", foreignKeys = [ForeignKey(
+        entity = CityEntity::class,
+        parentColumns = ["id"],
+        childColumns = ["cityId"],
+        onDelete = ForeignKey.RESTRICT,
+        onUpdate = ForeignKey.CASCADE
+    )], indices = [Index(value = ["cityId"]), Index(value = ["name"])]
+)
 data class BuildingEntity(
-    val id: Int,
+    @PrimaryKey val id: Int,
     // TODO (Part of #3): Add remaining properties
+    val name: String,
+    val imageUrl: String,
+    val heightMeters: Int,
+    val floors: Int,
+    val yearCompleted: Int,
+    val architecturalStyle: String,
+    val description: String,
+    val visitStatus: VisitStatusEntity,
+    val cityId: Int,
     // Refer to Building domain model for the complete list of properties needed
     // Include: name, imageUrl, heightMeters, floors, yearCompleted, architecturalStyle,
     //          description, visitStatus (as VisitStatusEntity), cityId (foreign key)
@@ -64,9 +88,14 @@ data class BuildingEntity(
  *  - androidx.room.Embedded
  *  - androidx.room.Relation
  */
+
 data class BuildingWithDetails(
-    val building: BuildingEntity,
-    val city: CityWithCountry
+    @Embedded val building: BuildingEntity,
+    @Relation(
+        entity = CityEntity::class,
+        parentColumn = "cityId",
+        entityColumn = "id"
+    ) val city: CityWithCountry
 )
 
 /**
@@ -87,8 +116,8 @@ data class BuildingWithDetails(
  *  - androidx.room.Relation
  */
 data class CityWithCountry(
-    val city: CityEntity,
-    val country: CountryEntity
+    @Embedded val city: CityEntity,
+    @Relation(parentColumn = "countryId", entityColumn = "id") val country: CountryEntity
 )
 
 /**
@@ -100,6 +129,20 @@ fun BuildingWithDetails.toDomainModel(): Building {
         // TODO (Part of #4): Add remaining properties
         // Map all properties from building, city, and country to the Building domain model
         // Use city.city.name, city.country.name, building.visitStatus.toDomainModel(), etc.
+
+        name = building.name,
+        imageUrl = building.imageUrl,
+        heightMeters = building.heightMeters,
+        floors = building.floors,
+        yearCompleted = building.yearCompleted,
+        architecturalStyle = building.architecturalStyle,
+        description = building.description,
+        visitStatus = building.visitStatus,
+        cityId = building.cityId,
+        cityName = city.city.name,
+        countryId = city.city.countryId,
+        countryName = city.country.name,
+        countryCode = city.country.code
     )
 }
 

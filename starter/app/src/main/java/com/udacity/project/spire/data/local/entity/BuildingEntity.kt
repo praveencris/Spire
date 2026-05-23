@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey
 import androidx.room.Relation
 import com.udacity.project.spire.domain.model.Building
 import com.udacity.project.spire.domain.model.VisitStatus
+import okhttp3.internal.notifyAll
 
 /**
  * Room entity representing a building in the local database.
@@ -137,12 +138,9 @@ fun BuildingWithDetails.toDomainModel(): Building {
         yearCompleted = building.yearCompleted,
         architecturalStyle = building.architecturalStyle,
         description = building.description,
-        visitStatus = building.visitStatus,
-        cityId = building.cityId,
-        cityName = city.city.name,
-        countryId = city.city.countryId,
-        countryName = city.country.name,
-        countryCode = city.country.code
+        visitStatus = building.visitStatus.toDomainModel(),
+        country = city.country.name,
+        city = city.city.name
     )
 }
 

@@ -1,3 +1,6 @@
 package com.udacity.project.spire.data.remote.dto
 
-class BuildingsResponse
+data class BuildingsResponse(
+    val buildings: List<BuildingDto>,
+    val pagination: PaginationMetadata?
+)

@@ -61,7 +61,9 @@ class BuildingDetailViewModel(
      * - Fragment observes this LiveData to display building details
      */
     val building: LiveData<Building?>
-        get() = TODO("Initialize building LiveData - see TODO comment above")
+        get() = repository.getBuildingById(buildingId).onEach {
+            Log.d("TAG", "Building Details: $it")
+        }.asLiveData()
 
     // Error state exposed to UI
     private val _errorEvent = MutableLiveData<Event<ErrorEvent>>()
@@ -89,7 +91,23 @@ class BuildingDetailViewModel(
      * - Fragment shows success message via Snackbar
      */
     fun updateVisitStatus(status: VisitStatus) {
-        TODO("Implement updateVisitStatus() - see TODO comment above")
+        // TODO("Implement updateVisitStatus() - see TODO comment above")
+        viewModelScope.launch {
+            if (buildingId == -1) {
+                repository.updateBuildingVisitStatus(buildingId, status)
+                    .onSuccess {
+                        _updateSuccess.value = Event("Status Updated Successfully")
+                    }
+                    .onFailure { exception ->
+                        _errorEvent.value = Event(
+                            ErrorEvent(
+                                message = exception.message
+                                    ?: "Failed to update building visit status!"
+                            )
+                        )
+                    }
+            }
+        }
     }
 }
 

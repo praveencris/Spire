@@ -81,6 +81,16 @@ class BuildingDetailFragment : Fragment() {
             // 2. Load image with Coil: buildingImage.load(building.imageUrl)
             // 3. Call updateButtons(building.visitStatus) to set button states
             //updateButtons(building.visitStatus)
+            textBuildingName.text = building.name
+            textLocation.text =
+                getString(R.string.building_location_format, building.city, building.country)
+            textHeight.text = getString(R.string.building_height_format, building.heightMeters)
+            textFloors.text = getString(R.string.building_floors_format, building.floors)
+            textYear.text = getString(R.string.building_year_format, building.yearCompleted)
+            textDescription.text = building.description
+            textStyle.text = building.architecturalStyle
+            imageBuilding.load(building.imageUrl)
+            updateButtons(building.visitStatus)
         }
     }
 
@@ -91,6 +101,13 @@ class BuildingDetailFragment : Fragment() {
                 // If currently BUCKET_LIST -> change to NOT_VISITED
                 // If currently NOT_VISITED -> change to BUCKET_LIST
                 // Call viewModel.updateVisitStatus(building.id, newStatus)
+                var status = building.visitStatus
+                if (status == VisitStatus.BUCKET_LIST) {
+                    status = VisitStatus.NOT_VISITED
+                } else if (status == VisitStatus.NOT_VISITED) {
+                    status = VisitStatus.BUCKET_LIST
+                }
+                viewModel.updateVisitStatus(status)
             }
         }
 
@@ -100,6 +117,13 @@ class BuildingDetailFragment : Fragment() {
                 // If currently VISITED -> change to NOT_VISITED
                 // If currently NOT_VISITED or BUCKET_LIST -> change to VISITED
                 // Call viewModel.updateVisitStatus(building.id, newStatus)
+                var status = building.visitStatus
+                if (status == VisitStatus.VISITED) {
+                    status = VisitStatus.NOT_VISITED
+                } else if (status == VisitStatus.NOT_VISITED || status == VisitStatus.BUCKET_LIST) {
+                    status = VisitStatus.VISITED
+                }
+                viewModel.updateVisitStatus(status)
             }
         }
     }
@@ -113,12 +137,14 @@ class BuildingDetailFragment : Fragment() {
                     buttonVisited.visibility = View.VISIBLE
                     buttonVisited.text = getString(R.string.button_mark_as_visited)
                 }
+
                 VisitStatus.BUCKET_LIST -> {
                     buttonBucketList.visibility = View.VISIBLE
                     buttonBucketList.text = getString(R.string.button_remove_from_bucket_list)
                     buttonVisited.visibility = View.VISIBLE
                     buttonVisited.text = getString(R.string.button_mark_as_visited)
                 }
+
                 VisitStatus.VISITED -> {
                     buttonBucketList.visibility = View.GONE
                     buttonVisited.visibility = View.VISIBLE

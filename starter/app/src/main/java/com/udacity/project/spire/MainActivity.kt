@@ -5,6 +5,7 @@ import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -57,7 +58,10 @@ class MainActivity : AppCompatActivity() {
      * - Use 'by lazy' for lazy initialization
      */
     private val navController: NavController by lazy {
-        TODO("Get NavController from NavHostFragment - see TODO comment above")
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navHostFragment.navController
+        //TODO("Get NavController from NavHostFragment - see TODO comment above")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,6 +88,10 @@ class MainActivity : AppCompatActivity() {
          * - setupWithNavController links bottom nav to navigation (auto-selects tabs)
          */
         // Implement the steps above here
+        appBarConfiguration = AppBarConfiguration(topLevelDestinations)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        binding.bottomNavigation.setupWithNavController(navController)
+        setupBottomNavVisibility()
     }
 
     /**
@@ -104,7 +112,31 @@ class MainActivity : AppCompatActivity() {
      * - Detail screens should hide bottom nav
      */
     private fun setupBottomNavVisibility() {
-        TODO("Setup bottom navigation visibility - see TODO comment above")
+        //TODO("Setup bottom navigation visibility - see TODO comment above")
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (topLevelDestinations.contains(destination.id)) {
+                binding.bottomNavigation.visibility = View.VISIBLE
+            } else {
+                binding.bottomNavigation.visibility = View.GONE
+            }
+            val title = when (destination.id) {
+                R.id.buildingsFragment ->
+                    getString(R.string.nav_buildings)
+
+                R.id.myVisitsFragment ->
+                    getString(R.string.nav_my_visits)
+
+                R.id.statisticsFragment ->
+                    getString(R.string.nav_statistics)
+
+                R.id.buildingDetailFragment ->
+                    getString(R.string.nav_building_details)
+
+                else ->
+                    getString(R.string.app_name)
+            }
+            binding.collapsingToolbar.title = title
+        }
     }
 
     /**
@@ -118,6 +150,8 @@ class MainActivity : AppCompatActivity() {
      * - Chain with || super.onSupportNavigateUp() as fallback
      */
     override fun onSupportNavigateUp(): Boolean {
-        TODO("Implement up navigation - see TODO comment above")
+        //TODO("Implement up navigation - see TODO comment above")
+        val navController = findNavController(R.id.nav_host_fragment)
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 }

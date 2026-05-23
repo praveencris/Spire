@@ -1,7 +1,10 @@
 package com.udacity.project.spire
 
 import android.app.Application
+import com.udacity.project.spire.data.local.database.SpireDatabase
+import com.udacity.project.spire.data.remote.api.ApiServiceProvider
 import com.udacity.project.spire.data.repository.BuildingRepository
+import com.udacity.project.spire.data.repository.DefaultBuildingRepository
 import com.udacity.project.spire.data.repository.MockBuildingRepository
 
 class SpireApplication : Application() {
@@ -30,6 +33,9 @@ class SpireApplication : Application() {
         // buildingRepository = DefaultBuildingRepository(database, apiService)
 
         // Temporary mock for app to run while implementing:
-        buildingRepository = MockBuildingRepository()
+       // buildingRepository = MockBuildingRepository()
+        val database = SpireDatabase.getInstance(this)
+        val apiService = ApiServiceProvider.apiService
+        buildingRepository = DefaultBuildingRepository(database,apiService)
     }
 }

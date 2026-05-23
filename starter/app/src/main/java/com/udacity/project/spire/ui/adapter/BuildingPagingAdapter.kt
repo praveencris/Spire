@@ -1,5 +1,6 @@
 package com.udacity.project.spire.ui.adapter
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -47,7 +48,9 @@ class BuildingPagingAdapter(
      * - Return BuildingViewHolder(binding, onItemClick)
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BuildingViewHolder {
-        TODO("Implement onCreateViewHolder() - see TODO comment above")
+        //TODO("Implement onCreateViewHolder() - see TODO comment above")
+        val binding = ItemBuildingBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        return BuildingViewHolder(binding, onItemClick)
     }
 
     /**
@@ -61,7 +64,11 @@ class BuildingPagingAdapter(
      * - Call holder.bind(building) to update UI
      */
     override fun onBindViewHolder(holder: BuildingViewHolder, position: Int) {
-        TODO("Implement onBindViewHolder() - see TODO comment above")
+        //TODO("Implement onBindViewHolder() - see TODO comment above")
+        val building = getItem(position)
+        if (building != null) {
+            holder.bind(building)
+        }
     }
 
     /**
@@ -91,8 +98,16 @@ class BuildingPagingAdapter(
          * - Use Coil's load() with crossfade, placeholder, and error options
          * - root is the entire item layout
          */
+        @SuppressLint("SetTextI18n")
         fun bind(building: Building) {
-            TODO("Implement bind() - see TODO comment above")
+           // TODO("Implement bind() - see TODO comment above")
+            binding.apply {
+                textBuildingName.text = building.name
+                textBuildingLocation.text = binding.root.context.getString(R.string.building_location_format,building.city,building.country)
+                textBuildingHeight.text = binding.root.context.getString(R.string.building_height_format,building.heightMeters)
+                textBuildingFloors.text = binding.root.context.getString(R.string.building_floors_format,building.floors)
+                imageBuilding.load(building.imageUrl)
+            }
         }
     }
 

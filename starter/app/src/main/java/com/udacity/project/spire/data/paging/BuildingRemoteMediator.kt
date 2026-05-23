@@ -11,6 +11,8 @@ import com.udacity.project.spire.data.local.entity.BuildingRemoteKeys
 import com.udacity.project.spire.data.local.entity.BuildingWithDetails
 import com.udacity.project.spire.data.local.entity.CityEntity
 import com.udacity.project.spire.data.local.entity.CountryEntity
+import com.udacity.project.spire.data.local.entity.VisitStatusEntity
+import com.udacity.project.spire.data.local.entity.toEntity
 import com.udacity.project.spire.data.remote.api.BuildingApiService
 import com.udacity.project.spire.data.remote.dto.BuildingDto
 
@@ -69,10 +71,70 @@ class BuildingRemoteMediator(
      * - https://www.bornfight.com/blog/android-paging-3-library-with-page-and-limit-parameters/
      */
     override suspend fun load(
-        loadType: LoadType,
-        state: PagingState<Int, BuildingWithDetails>
+        loadType: LoadType, state: PagingState<Int, BuildingWithDetails>
     ): MediatorResult {
-        TODO("Implement RemoteMediator.load() - see TODO comment above for detailed steps")
+        // TODO("Implement RemoteMediator.load() - see TODO comment above for detailed steps")
+        return try {
+            val page = when (loadType) {
+                LoadType.REFRESH -> {
+                    val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
+                    remoteKeys?.nextKey?.minus(1) ?: initialPage
+
+                }
+
+                LoadType.PREPEND -> {
+                    return MediatorResult.Success(true)
+                }
+
+                LoadType.APPEND -> {
+                    val remoteKeys = getRemoteKeyForLastItem(state)
+                    val nextkey = remoteKeys?.nextKey ?: return MediatorResult.Success(
+                        endOfPaginationReached = true
+                    )
+                    nextkey
+                }
+            }
+            //Fetch data from network
+            val response = apiService.getBuildingsPaginated(page)
+            val buildings = response.buildings
+            val endOfPaginationReached = buildings.isEmpty()
+
+            database.withTransaction {
+
+                // Clear old data on refresh
+                if (loadType == LoadType.REFRESH) {
+                    remoteKeysDao.clearRemoteKeys()
+                    buildingDao.clearBuildings()
+                }
+
+                val prevKey = if (page == initialPage) null else page - 1
+                val nextKey = if (endOfPaginationReached) null else page + 1
+
+                // Create remote keys
+                val keys = buildings.map { dto ->
+                    BuildingRemoteKeys(
+                        buildingId = dto.id, prevKey = prevKey, nextKey = nextKey
+                    )
+                }
+
+                remoteKeysDao.insertAll(keys)
+
+                // Convert DTOs to entities
+                val buildingEntities = buildings.map { dto ->
+                    buildingDtoToEntity(dto)
+                }
+
+                // Insert buildings
+                buildingDao.insertBuildings(buildingEntities)
+            }
+
+            MediatorResult.Success(
+                endOfPaginationReached = endOfPaginationReached
+            )
+
+        } catch (e: Exception) {
+            MediatorResult.Error(e)
+        }
     }
 
     /**
@@ -84,12 +146,22 @@ class BuildingRemoteMediator(
         //val cityId = getOrCreateCity()
 
         return BuildingEntity(
-            id = dto.id,,
+            id = dto.id,
+            name = dto.name,
+            imageUrl = dto.imageUrl,
+            heightMeters = dto.heightMeters,
+            floors = dto.floors,
+            yearCompleted = dto.yearCompleted,
+            architecturalStyle = dto.architecturalStyle,
+            description = dto.description,
+            visitStatus = VisitStatusEntity.NOT_VISITED,
+            cityId = dto.city.id
+
             // TODO (Part of #28): Add remaining properties
             // Map all properties from BuildingDto to BuildingEntity
             // Use getOrCreateCountry() and getOrCreateCity() to get foreign key IDs
             // Convert VisitStatus to VisitStatusEntity using .toEntity()
-            ,
+
         )
     }
 

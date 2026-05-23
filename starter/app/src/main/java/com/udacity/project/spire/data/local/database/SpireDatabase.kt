@@ -1,8 +1,10 @@
 package com.udacity.project.spire.data.local.database
 
 import android.content.Context
+import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.udacity.project.spire.data.local.converter.VisitStatusConverter
 import com.udacity.project.spire.data.local.dao.BuildingDao
 import com.udacity.project.spire.data.local.dao.BuildingRemoteKeysDao
@@ -50,6 +52,14 @@ import com.udacity.project.spire.data.local.entity.CountryEntity
  *  - androidx.room.Database
  *  - androidx.room.TypeConverters
  */
+
+@Database(
+    entities = [BuildingEntity::class, CityEntity::class, CountryEntity::class, BuildingRemoteKeys::class],
+    version = 1,
+    exportSchema = false
+)
+@TypeConverters(VisitStatusConverter::class)
+
 abstract class SpireDatabase : RoomDatabase() {
 
     /**
@@ -86,7 +96,16 @@ abstract class SpireDatabase : RoomDatabase() {
          * @return The BuildingDatabase instance
          */
         fun getInstance(context: Context): SpireDatabase {
-            TODO()
+            return INSTANCE ?: synchronized(this) {
+                INSTANCE ?: Room.databaseBuilder(
+                    context.applicationContext,
+                    SpireDatabase::class.java,
+                    DATABASE_NAME
+                )
+                    .fallbackToDestructiveMigration(true)
+                    .build()
+                    .also { INSTANCE = it }
+            }
         }
     }
 }

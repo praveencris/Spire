@@ -99,16 +99,16 @@ class MyVisitsFragment : Fragment() {
         binding.apply {
             when (status) {
                 VisitStatus.VISITED -> {
-                    textEmptyTitle.text = "No visited buildings yet"
-                    textEmptyMessage.text = "Explore buildings and mark them as visited to see them here"
+                    textEmptyTitle.text = getString(R.string.empty_visited_title)
+                    textEmptyMessage.text = getString(R.string.empty_visited_message)
                 }
                 VisitStatus.BUCKET_LIST -> {
-                    textEmptyTitle.text = "Your bucket list is empty"
-                    textEmptyMessage.text = "Add buildings you want to visit to your bucket list"
+                    textEmptyTitle.text = getString(R.string.empty_bucket_list_title)
+                    textEmptyMessage.text = getString(R.string.empty_bucket_list_message)
                 }
                 VisitStatus.NOT_VISITED -> {
-                    textEmptyTitle.text = "All buildings tracked!"
-                    textEmptyMessage.text = "You've visited or added everything to your list"
+                    textEmptyTitle.text = getString(R.string.empty_not_visited_title)
+                    textEmptyMessage.text = getString(R.string.empty_not_visited_message)
                 }
             }
         }

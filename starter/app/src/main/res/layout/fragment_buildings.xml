@@ -42,7 +42,7 @@
         <TextView
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:text="🏢"
+            android:text="@string/empty_icon_buildings"
             android:textSize="64sp"
             android:gravity="center"
             android:alpha="0.3" />
@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="No buildings loaded"
+            android:text="@string/empty_buildings_title"
             android:textAppearance="?attr/textAppearanceHeadlineSmall"
             android:textColor="?android:attr/textColorSecondary"
             android:gravity="center" />
@@ -60,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Pull down to refresh and load buildings"
+            android:text="@string/empty_buildings_message"
             android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textColor="?android:attr/textColorTertiary"
             android:gravity="center" />

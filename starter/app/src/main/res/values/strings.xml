@@ -77,4 +77,5 @@
     <string name="error_update_visit_status">Failed to update visit status. Please try again.</string>
     <string name="error_load_buildings">Failed to load buildings. Please try again.</string>
     <string name="error_load_statistics">Failed to load statistics. Please try again.</string>
+    <string name="no_buildings_loaded">No buildings loaded</string>
 </resources>

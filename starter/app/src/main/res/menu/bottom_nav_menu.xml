@@ -3,15 +3,15 @@
     <item
         android:id="@+id/buildingsFragment"
         android:icon="@android:drawable/ic_menu_view"
-        android:title="Buildings" />
+        android:title="@string/nav_buildings" />
 
     <item
         android:id="@+id/myVisitsFragment"
         android:icon="@android:drawable/ic_menu_myplaces"
-        android:title="My Visits" />
+        android:title="@string/nav_my_visits" />
 
     <item
         android:id="@+id/statisticsFragment"
         android:icon="@android:drawable/ic_menu_info_details"
-        android:title="Statistics" />
+        android:title="@string/nav_statistics" />
 </menu>

@@ -15,7 +15,7 @@
             android:id="@+id/image_building"
             android:layout_width="0dp"
             android:layout_height="250dp"
-            android:contentDescription="Building image"
+            android:contentDescription="@string/building_image"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -117,7 +117,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="Add to Bucket List" />
+                android:text="@string/button_add_to_bucket_list" />
 
 
             <com.google.android.material.button.MaterialButton
@@ -128,7 +128,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
-                android:text="Mark as Visited" />
+                android:text="@string/button_mark_as_unvisited" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

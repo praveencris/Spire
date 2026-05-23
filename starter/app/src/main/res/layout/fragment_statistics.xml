@@ -34,7 +34,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Total Buildings"
+                    android:text="@string/stat_total_buildings"
                     android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
 
                 <TextView
@@ -72,7 +72,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Visited"
+                    android:text="@string/stat_visited"
                     android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
 
                 <TextView
@@ -110,7 +110,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Bucket List"
+                    android:text="@string/stat_bucket_list"
                     android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
 
                 <TextView
@@ -148,7 +148,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Total Meters Climbed"
+                    android:text="@string/stat_meters_climbed"
                     android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
 
                 <TextView
@@ -186,7 +186,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Countries Explored"
+                    android:text="@string/stat_countries_explored"
                     android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
 
                 <TextView

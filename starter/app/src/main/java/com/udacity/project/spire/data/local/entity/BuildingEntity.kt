@@ -8,7 +8,6 @@ import androidx.room.PrimaryKey
 import androidx.room.Relation
 import com.udacity.project.spire.domain.model.Building
 import com.udacity.project.spire.domain.model.VisitStatus
-import okhttp3.internal.notifyAll
 
 /**
  * Room entity representing a building in the local database.

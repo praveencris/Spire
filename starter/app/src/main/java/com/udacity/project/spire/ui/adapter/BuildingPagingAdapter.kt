@@ -107,6 +107,9 @@ class BuildingPagingAdapter(
                 textBuildingHeight.text = binding.root.context.getString(R.string.building_height_format,building.heightMeters)
                 textBuildingFloors.text = binding.root.context.getString(R.string.building_floors_format,building.floors)
                 imageBuilding.load(building.imageUrl)
+                root.setOnClickListener {
+                    onItemClick(building)
+                }
             }
         }
     }

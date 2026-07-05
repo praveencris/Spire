@@ -142,8 +142,8 @@ class BuildingRemoteMediator(
      * Creates or gets the necessary Country and City entities.
      */
     private suspend fun buildingDtoToEntity(dto: BuildingDto): BuildingEntity {
-        //val countryId = getOrCreateCountry()
-        //val cityId = getOrCreateCity()
+        val countryId = getOrCreateCountry(dto.country.name,dto.country.code)
+        val cityId = getOrCreateCity(dto.city.name,countryId)
 
         return BuildingEntity(
             id = dto.id,
@@ -155,7 +155,7 @@ class BuildingRemoteMediator(
             architecturalStyle = dto.architecturalStyle,
             description = dto.description,
             visitStatus = VisitStatusEntity.NOT_VISITED,
-            cityId = dto.city.id
+            cityId = cityId
 
             // TODO (Part of #28): Add remaining properties
             // Map all properties from BuildingDto to BuildingEntity

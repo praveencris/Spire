@@ -60,8 +60,7 @@ class BuildingDetailViewModel(
      * - Use .asLiveData() to convert Flow to LiveData
      * - Fragment observes this LiveData to display building details
      */
-    val building: LiveData<Building?>
-        get() = repository.getBuildingById(buildingId).onEach {
+    val building: LiveData<Building?>  = repository.getBuildingById(buildingId).onEach {
             Log.d("TAG", "Building Details: $it")
         }.asLiveData()
 
@@ -93,7 +92,7 @@ class BuildingDetailViewModel(
     fun updateVisitStatus(status: VisitStatus) {
         // TODO("Implement updateVisitStatus() - see TODO comment above")
         viewModelScope.launch {
-            if (buildingId == -1) {
+            if (buildingId != -1) {
                 repository.updateBuildingVisitStatus(buildingId, status)
                     .onSuccess {
                         _updateSuccess.value = Event("Status Updated Successfully")

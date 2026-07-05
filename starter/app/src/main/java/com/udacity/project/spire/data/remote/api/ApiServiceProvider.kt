@@ -16,12 +16,15 @@ import java.util.concurrent.TimeUnit
 object ApiServiceProvider {
 
     /**
-     * Base URL for the API.
+     * Public AWS Lambda Function URL hosting the Spire API (us-east-1).
      */
-    private const val BASE_URL = "https://spire-3oxocbdifa-uc.a.run.app/api/"
+    private const val LAMBDA_URL = "https://nmzmnl3hly5odkriglauqar4uy0hinjr.lambda-url.us-east-1.on.aws/"
 
     /**
-     * HTTP logging interceptor for debugging network requests.
+     * Base URL for the API (Lambda Function URL + the "api/" router prefix).
+     */
+    private const val BASE_URL = LAMBDA_URL + "api/"
+     /* HTTP logging interceptor for debugging network requests.
      */
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY

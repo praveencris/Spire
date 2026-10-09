@@ -89,6 +89,8 @@ turbine = "1.2.1"
 archCoreTesting = "2.2.0"
 # MockWebServer - Mock HTTP server for testing Retrofit
 mockWebServer = "4.12.0"
+navigationFragmentKtxVersion = "2.10.2"
+navigationUiKtxVersion = "2.10.2"
 
 [libraries]
 # ===================================
@@ -200,6 +202,8 @@ androidx-test-core = { group = "androidx.test", name = "core", version = "1.6.1"
 androidx-room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
 # MockWebServer - Mock HTTP server for testing Retrofit API calls
 mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "mockWebServer" }
+navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtxVersion" }
+navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtxVersion" }
 
 [plugins]
 # ===================================

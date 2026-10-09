@@ -43,8 +43,7 @@ class BuildingsViewModel(
      * - Use .cachedIn(viewModelScope) to prevent reloading on configuration changes
      * - Fragment will collect this Flow using lifecycleScope
      */
-    val buildings: Flow<PagingData<Building>>
-        get() = repository.getBuildings().cachedIn(viewModelScope)
+    val buildings: Flow<PagingData<Building>> = repository.getBuildings().cachedIn(viewModelScope)
 
     // Error state exposed to UI
     private val _errorEvent = MutableLiveData<Event<ErrorEvent>>()
